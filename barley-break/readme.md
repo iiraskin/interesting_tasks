@@ -1,0 +1,3 @@
+﻿The program accepts an array of 4x4 with numbers 0-15. An empty cell is denoted by 0. The program solves the problem of playing a "Barley-Break".
+Option without heuristics solves the problem for the optimal number of moves, but it works for a long time.
+The variant with heuristics, strictly speaking, does not guarantee the optimal solution, but, due to the limited maximum number of moves in the game and carefully selected constant in the heuristic, in practice it gives the optimal solution.
