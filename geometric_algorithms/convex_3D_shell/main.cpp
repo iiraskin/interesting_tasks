@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <vector>
 #include <cmath>
 #include <queue>
@@ -42,18 +42,18 @@ long DotProduct(const CVector a, const CVector b)
     return a.x * b.x + a.y * b.y + a.z * b.z;
 }
 
-//Нормаль к плоскости face.
+//РќРѕСЂРјР°Р»СЊ Рє РїР»РѕСЃРєРѕСЃС‚Рё face.
 CVector Normal(const vector<CPoint>& points, const int A, const int B, const int C)
 {
     return VectorProduct(CVector(points[A], points[B]), CVector(points[A], points[C]));
 }
 
-//Внешняя нормаль к плоскости face.
+//Р’РЅРµС€РЅСЏСЏ РЅРѕСЂРјР°Р»СЊ Рє РїР»РѕСЃРєРѕСЃС‚Рё face.
 CVector OuterNormal(const vector<CPoint>& points, const int A, const int B, const int C)
 {
     CVector n = Normal(points, A, B, C);
-    int somePoint;//Индекс точки множества, не лежащая в грани.
-    //Выбираем точку, не совпадающую с A, B и C.
+    int somePoint;//РРЅРґРµРєСЃ С‚РѕС‡РєРё РјРЅРѕР¶РµСЃС‚РІР°, РЅРµ Р»РµР¶Р°С‰Р°СЏ РІ РіСЂР°РЅРё.
+    //Р’С‹Р±РёСЂР°РµРј С‚РѕС‡РєСѓ, РЅРµ СЃРѕРІРїР°РґР°СЋС‰СѓСЋ СЃ A, B Рё C.
     for (int i = 0; i < 4; ++i) {
         if (A == i) {continue;}
         if (B == i) {continue;}
@@ -61,7 +61,7 @@ CVector OuterNormal(const vector<CPoint>& points, const int A, const int B, cons
         somePoint = i;
         break;
     }
-    //Проверка, что нормаль внешняя.
+    //РџСЂРѕРІРµСЂРєР°, С‡С‚Рѕ РЅРѕСЂРјР°Р»СЊ РІРЅРµС€РЅСЏСЏ.
     if (DotProduct(n, CVector(points[A], points[somePoint])) > 0) {
         n.x = - n.x;
         n.y = - n.y;
@@ -105,12 +105,12 @@ struct CFace
     }
 };
 
-//Находит косинус угла между плоскостями F и S.
+//РќР°С…РѕРґРёС‚ РєРѕСЃРёРЅСѓСЃ СѓРіР»Р° РјРµР¶РґСѓ РїР»РѕСЃРєРѕСЃС‚СЏРјРё F Рё S.
 double FindAngleBetweenPlanes(const CPoint F1, const CPoint F2, const CPoint F3,
                               const CPoint S1, const CPoint S2, const CPoint S3)
 {
-    CVector normalF = VectorProduct(CVector(F1, F2), CVector(F1, F3)); //Нормаль к плоскости F.
-    CVector normalS = VectorProduct(CVector(S1, S2), CVector(S1, S3)); //Нормаль к плоскости S.
+    CVector normalF = VectorProduct(CVector(F1, F2), CVector(F1, F3)); //РќРѕСЂРјР°Р»СЊ Рє РїР»РѕСЃРєРѕСЃС‚Рё F.
+    CVector normalS = VectorProduct(CVector(S1, S2), CVector(S1, S3)); //РќРѕСЂРјР°Р»СЊ Рє РїР»РѕСЃРєРѕСЃС‚Рё S.
     return DotProduct(normalF, normalS) / normalF.Mod() / normalS.Mod();
 }
 
@@ -141,7 +141,7 @@ int FindPointWithMaxAngle(const vector<CPoint>& points, const CPoint point1, con
 
 void Initialization(const vector<CPoint>& points, const int first, int& second, int& third)
 {
-    //Находим вторую точку первой грани.
+    //РќР°С…РѕРґРёРј РІС‚РѕСЂСѓСЋ С‚РѕС‡РєСѓ РїРµСЂРІРѕР№ РіСЂР°РЅРё.
     if (second != -1 && third != -1) {
         return;
     }
@@ -156,18 +156,18 @@ void Initialization(const vector<CPoint>& points, const int first, int& second, 
         somePoint.x += points[second].x;
         somePoint.y += points[second].y + 1;
     }
-    //Находим третью точку первой грани.
+    //РќР°С…РѕРґРёРј С‚СЂРµС‚СЊСЋ С‚РѕС‡РєСѓ РїРµСЂРІРѕР№ РіСЂР°РЅРё.
     bans.push_back(second);
     third = FindPointWithMaxAngle(points, points[first], points[second], somePoint, bans);
 }
 
-//Находит грани, смежные с face по ребрам.
+//РќР°С…РѕРґРёС‚ РіСЂР°РЅРё, СЃРјРµР¶РЅС‹Рµ СЃ face РїРѕ СЂРµР±СЂР°Рј.
 void SharedFaces(const vector<CPoint>& points, set<CFace>& hull, queue<CFace>& faces)
 {
-    //Найдём нормаль к плоскости.
+    //РќР°Р№РґС‘Рј РЅРѕСЂРјР°Р»СЊ Рє РїР»РѕСЃРєРѕСЃС‚Рё.
     CFace face = faces.front();
     CVector n = OuterNormal(points, face.A, face.B, face.C);
-    double g1 = -2, g2 = -2, g3 = -2;//Косинусы, минимума которых необходимо достигнуть.
+    double g1 = -2, g2 = -2, g3 = -2;//РљРѕСЃРёРЅСѓСЃС‹, РјРёРЅРёРјСѓРјР° РєРѕС‚РѕСЂС‹С… РЅРµРѕР±С…РѕРґРёРјРѕ РґРѕСЃС‚РёРіРЅСѓС‚СЊ.
     CFace f1, f2, f3;
     for (int i = 0 ; i < points.size(); ++i) {
         if (face.A != i && face.B != i && face.C != i) {
@@ -194,7 +194,7 @@ void SharedFaces(const vector<CPoint>& points, set<CFace>& hull, queue<CFace>& f
             }
         }
     }
-    //Проверим, что грани новые.
+    //РџСЂРѕРІРµСЂРёРј, С‡С‚Рѕ РіСЂР°РЅРё РЅРѕРІС‹Рµ.
     bool b1 = true, b2 = true, b3 = true;
     if (hull.count(f1) != 0){b1 = false;}
     if (hull.count(f2) != 0){b2 = false;}

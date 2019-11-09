@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <string>
 #include <cmath>
 #include <vector>
@@ -48,13 +48,13 @@ class CPosition {
 public:
     explicit CPosition( const unsigned short source[] );
 
-    // Передвижение пустышки вверх.
+    // РџРµСЂРµРґРІРёР¶РµРЅРёРµ РїСѓСЃС‚С‹С€РєРё РІРІРµСЂС….
     CPosition Up() const;
-    // Передвижение пустышки вверх.
+    // РџРµСЂРµРґРІРёР¶РµРЅРёРµ РїСѓСЃС‚С‹С€РєРё РІРІРµСЂС….
     CPosition Down() const;
-    // Передвижение пустышки вверх.
+    // РџРµСЂРµРґРІРёР¶РµРЅРёРµ РїСѓСЃС‚С‹С€РєРё РІРІРµСЂС….
     CPosition Left() const;
-    // Передвижение пустышки вверх.
+    // РџРµСЂРµРґРІРёР¶РµРЅРёРµ РїСѓСЃС‚С‹С€РєРё РІРІРµСЂС….
     CPosition Right() const;
     void setAt( int place, unsigned char value );
     unsigned char getAt( int place ) const;
@@ -66,7 +66,7 @@ public:
     unsigned long long parent;
 
 private:
-    unsigned long long data; // 16 ячеек по 4 бита каждая.
+    unsigned long long data; // 16 СЏС‡РµРµРє РїРѕ 4 Р±РёС‚Р° РєР°Р¶РґР°СЏ.
     unsigned short nullPlace;
 };
 
@@ -83,13 +83,13 @@ CPosition::CPosition( const unsigned short source[] ) :
     }
 }
 
-// Установка значения в некоторую позицию.
+// РЈСЃС‚Р°РЅРѕРІРєР° Р·РЅР°С‡РµРЅРёСЏ РІ РЅРµРєРѕС‚РѕСЂСѓСЋ РїРѕР·РёС†РёСЋ.
 void CPosition::setAt( int place, unsigned char value )
 {
     data = ( data & AntiMasks[place] ) | ( static_cast<long long>( value ) << ( place << 2 ) );
 }
 
-// Получение того, что лежит в некоторой позиции.
+// РџРѕР»СѓС‡РµРЅРёРµ С‚РѕРіРѕ, С‡С‚Рѕ Р»РµР¶РёС‚ РІ РЅРµРєРѕС‚РѕСЂРѕР№ РїРѕР·РёС†РёРё.
 unsigned char CPosition::getAt( int place ) const
 {
     return static_cast<unsigned char>( ( data & Masks[place] ) >> ( place << 2 ) );
@@ -98,9 +98,9 @@ unsigned char CPosition::getAt( int place ) const
 CPosition CPosition::Up() const
 {
     CPosition result( *this );
-    // Ставим то, что было выше, на то место, где была пустышка.
+    // РЎС‚Р°РІРёРј С‚Рѕ, С‡С‚Рѕ Р±С‹Р»Рѕ РІС‹С€Рµ, РЅР° С‚Рѕ РјРµСЃС‚Рѕ, РіРґРµ Р±С‹Р»Р° РїСѓСЃС‚С‹С€РєР°.
     result.setAt( nullPlace, getAt( nullPlace - 4 ) );
-     // Ставим пустышку выше.
+     // РЎС‚Р°РІРёРј РїСѓСЃС‚С‹С€РєСѓ РІС‹С€Рµ.
     result.setAt( nullPlace - 4, 0 );
     result.nullPlace -= 4;
     result.path = path;
@@ -113,9 +113,9 @@ CPosition CPosition::Up() const
 CPosition CPosition::Down() const
 {
     CPosition result( *this );
-    // Ставим то, что было ниже, на то место, где была пустышка.
+    // РЎС‚Р°РІРёРј С‚Рѕ, С‡С‚Рѕ Р±С‹Р»Рѕ РЅРёР¶Рµ, РЅР° С‚Рѕ РјРµСЃС‚Рѕ, РіРґРµ Р±С‹Р»Р° РїСѓСЃС‚С‹С€РєР°.
     result.setAt( nullPlace, getAt( nullPlace + 4 ) );
-    // Ставим пустышку ниже.
+    // РЎС‚Р°РІРёРј РїСѓСЃС‚С‹С€РєСѓ РЅРёР¶Рµ.
     result.setAt( nullPlace + 4, 0 );
     result.nullPlace += 4;
     result.path = path;
@@ -128,9 +128,9 @@ CPosition CPosition::Down() const
 CPosition CPosition::Left() const
 {
     CPosition result( *this );
-    // Ставим то, что было левее, на то место, где была пустышка.
+    // РЎС‚Р°РІРёРј С‚Рѕ, С‡С‚Рѕ Р±С‹Р»Рѕ Р»РµРІРµРµ, РЅР° С‚Рѕ РјРµСЃС‚Рѕ, РіРґРµ Р±С‹Р»Р° РїСѓСЃС‚С‹С€РєР°.
     result.setAt( nullPlace, getAt( nullPlace - 1 ) );
-    // Ставим пустышку левее.
+    // РЎС‚Р°РІРёРј РїСѓСЃС‚С‹С€РєСѓ Р»РµРІРµРµ.
     result.setAt( nullPlace - 1, 0 );
     result.nullPlace -= 1;
     result.path = path;
@@ -143,9 +143,9 @@ CPosition CPosition::Left() const
 CPosition CPosition::Right() const
 {
     CPosition result( *this );
-    // Ставим то, что было правее, на то место, где была пустышка.
+    // РЎС‚Р°РІРёРј С‚Рѕ, С‡С‚Рѕ Р±С‹Р»Рѕ РїСЂР°РІРµРµ, РЅР° С‚Рѕ РјРµСЃС‚Рѕ, РіРґРµ Р±С‹Р»Р° РїСѓСЃС‚С‹С€РєР°.
     result.setAt( nullPlace, getAt( nullPlace + 1 ) );
-    // Ставим пустышку правее.
+    // РЎС‚Р°РІРёРј РїСѓСЃС‚С‹С€РєСѓ РїСЂР°РІРµРµ.
     result.setAt( nullPlace + 1, 0 );
     result.nullPlace += 1;
     result.path = path;
@@ -155,7 +155,7 @@ CPosition CPosition::Right() const
     return result;
 }
 
-//Является ли позиция конечной.
+//РЇРІР»СЏРµС‚СЃСЏ Р»Рё РїРѕР·РёС†РёСЏ РєРѕРЅРµС‡РЅРѕР№.
 bool CPosition::IsEnd()
 {
     return data == 0x0FEDCBA987654321;
@@ -171,7 +171,7 @@ unsigned long long CPosition::GetData()
     return data;
 }
 
-//Эвристика.
+//Р­РІСЂРёСЃС‚РёРєР°.
 unsigned short Heuristic( const CPosition &position )
 {
     unsigned short heuristic = 0;

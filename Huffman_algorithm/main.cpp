@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <vector>
 #include <queue>
 #include <string>
@@ -8,10 +8,10 @@ using namespace std;
 
 struct Node
 {
-    unsigned char Key;//Сивол.
+    unsigned char Key;//РЎРёРІРѕР».
     Node* Left;
     Node* Right;
-    string code;//Код символа
+    string code;//РљРѕРґ СЃРёРјРІРѕР»Р°
     explicit Node( unsigned char key ): Key( key ), Left( 0 ), Right( 0 ){}
 };
 
@@ -19,9 +19,9 @@ class HuffmanTree
 {
 public:
 
-    //Конструктор.
+    //РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ.
     HuffmanTree(): root( 0 ){}
-    //Деструктор.
+    //Р”РµСЃС‚СЂСѓРєС‚РѕСЂ.
     ~HuffmanTree();
 
     Node* GiveRoot();
@@ -42,7 +42,7 @@ HuffmanTree::~HuffmanTree()
     DeleteTree( root );
 }
 
-//Удаление поддерева с корнем currentNode.
+//РЈРґР°Р»РµРЅРёРµ РїРѕРґРґРµСЂРµРІР° СЃ РєРѕСЂРЅРµРј currentNode.
 void HuffmanTree::DeleteTree( Node* currentNode )
 {
     if( currentNode == 0 ){
@@ -53,13 +53,13 @@ void HuffmanTree::DeleteTree( Node* currentNode )
     delete currentNode;
 }
 
-//Возвращает указатель на корень дерева.
+//Р’РѕР·РІСЂР°С‰Р°РµС‚ СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РєРѕСЂРµРЅСЊ РґРµСЂРµРІР°.
 Node* HuffmanTree::GiveRoot()
 {
     return root;
 }
 
-//Создаёт дерево для алгоритма Хаффмана. Возвращает указатель на корень.
+//РЎРѕР·РґР°С‘С‚ РґРµСЂРµРІРѕ РґР»СЏ Р°Р»РіРѕСЂРёС‚РјР° РҐР°С„С„РјР°РЅР°. Р’РѕР·РІСЂР°С‰Р°РµС‚ СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РєРѕСЂРµРЅСЊ.
 void HuffmanTree::MakeTree( string& data, IInputStream& input )
 {
     vector<Node*> HuffmanArr;
@@ -124,7 +124,7 @@ void HuffmanTree::MakeTree( string& data, IInputStream& input )
     root = HuffmanArr[0];
 }
 
-//Составление кода для каждого символа.
+//РЎРѕСЃС‚Р°РІР»РµРЅРёРµ РєРѕРґР° РґР»СЏ РєР°Р¶РґРѕРіРѕ СЃРёРјРІРѕР»Р°.
 void HuffmanTree::MakeCodeForTree()
 {
     if( root->Left == 0 ){
@@ -138,7 +138,7 @@ void HuffmanTree::MakeCodeForTree()
     MakeCode( root->Right, prefix );
 }
 
-//Составление кода для элементов поддерева с корнем currentNode.
+//РЎРѕСЃС‚Р°РІР»РµРЅРёРµ РєРѕРґР° РґР»СЏ СЌР»РµРјРµРЅС‚РѕРІ РїРѕРґРґРµСЂРµРІР° СЃ РєРѕСЂРЅРµРј currentNode.
 void HuffmanTree::MakeCode( Node* currentNode, string prefix )
 {
     if( currentNode->Left == 0 ){
@@ -151,56 +151,56 @@ void HuffmanTree::MakeCode( Node* currentNode, string prefix )
     MakeCode( currentNode->Right, prefix );
 }
 
-//Выводит код дерева Хаффмана.
-//Возвращает вектор с листьями дерева, необходимый для упрощения дальнейшей работы программы.
+//Р’С‹РІРѕРґРёС‚ РєРѕРґ РґРµСЂРµРІР° РҐР°С„С„РјР°РЅР°.
+//Р’РѕР·РІСЂР°С‰Р°РµС‚ РІРµРєС‚РѕСЂ СЃ Р»РёСЃС‚СЊСЏРјРё РґРµСЂРµРІР°, РЅРµРѕР±С…РѕРґРёРјС‹Р№ РґР»СЏ СѓРїСЂРѕС‰РµРЅРёСЏ РґР°Р»СЊРЅРµР№С€РµР№ СЂР°Р±РѕС‚С‹ РїСЂРѕРіСЂР°РјРјС‹.
 vector<Node*> HuffmanTree::TreeEncode( IOutputStream& output )
 {
     queue<Node*> q;
     vector<Node*> simbols(256);
     vector<Node*> simbolsInOrder;
-    unsigned char c = 0;//Здесь будет формироваться байт для записи.
+    unsigned char c = 0;//Р—РґРµСЃСЊ Р±СѓРґРµС‚ С„РѕСЂРјРёСЂРѕРІР°С‚СЊСЃСЏ Р±Р°Р№С‚ РґР»СЏ Р·Р°РїРёСЃРё.
     q.push( root );
     short counter = 0;
 
-    //Обход дерева в ширину.
+    //РћР±С…РѕРґ РґРµСЂРµРІР° РІ С€РёСЂРёРЅСѓ.
     while( !q.empty() ){
 		if( q.front()->Left != 0 ){
 			q.push( q.front()->Left );
 			q.push( q.front()->Right );
-            c = ( c << 1 );//Если узел не листовой, то дописываем в с 0.
+            c = ( c << 1 );//Р•СЃР»Рё СѓР·РµР» РЅРµ Р»РёСЃС‚РѕРІРѕР№, С‚Рѕ РґРѕРїРёСЃС‹РІР°РµРј РІ СЃ 0.
 		}else{
-			c = ( c << 1 ) + 1;//Если узел листовой, то дописываем в с 1.
+			c = ( c << 1 ) + 1;//Р•СЃР»Рё СѓР·РµР» Р»РёСЃС‚РѕРІРѕР№, С‚Рѕ РґРѕРїРёСЃС‹РІР°РµРј РІ СЃ 1.
             simbols[static_cast<int>( q.front()->Key )] = q.front();
             simbolsInOrder.push_back( q.front() );
 		}
 		q.pop();
 		counter++;
-		//Если с заполнен.
+		//Р•СЃР»Рё СЃ Р·Р°РїРѕР»РЅРµРЅ.
 		if( counter == 8 ){
-			output.Write( static_cast<byte>( c ) );//Выводим с.
-            c = 0;//Обнуляем с.
-            counter = 0;//Обнуляем счётчик.
+			output.Write( static_cast<byte>( c ) );//Р’С‹РІРѕРґРёРј СЃ.
+            c = 0;//РћР±РЅСѓР»СЏРµРј СЃ.
+            counter = 0;//РћР±РЅСѓР»СЏРµРј СЃС‡С‘С‚С‡РёРє.
         }
 	}
 
-	//Выводим "остаток". Биты, несущие информацию стоят в начале байта.
+	//Р’С‹РІРѕРґРёРј "РѕСЃС‚Р°С‚РѕРє". Р‘РёС‚С‹, РЅРµСЃСѓС‰РёРµ РёРЅС„РѕСЂРјР°С†РёСЋ СЃС‚РѕСЏС‚ РІ РЅР°С‡Р°Р»Рµ Р±Р°Р№С‚Р°.
 	if( counter != 0 ){
 		c = c << ( 8 - counter );
 		output.Write( static_cast<byte>( c ) );
 	}
-	//Выводим значения ключей в листьях дерева в порядке обхода.
+	//Р’С‹РІРѕРґРёРј Р·РЅР°С‡РµРЅРёСЏ РєР»СЋС‡РµР№ РІ Р»РёСЃС‚СЊСЏС… РґРµСЂРµРІР° РІ РїРѕСЂСЏРґРєРµ РѕР±С…РѕРґР°.
 	for( int i = 0; i < simbolsInOrder.size(); ++i ){
 		output.Write( static_cast<byte>( simbolsInOrder[i]->Key ) );
 	}
 	return simbols;
 }
 
-//Построение дерева на основе считываемого кода.
+//РџРѕСЃС‚СЂРѕРµРЅРёРµ РґРµСЂРµРІР° РЅР° РѕСЃРЅРѕРІРµ СЃС‡РёС‚С‹РІР°РµРјРѕРіРѕ РєРѕРґР°.
 void HuffmanTree::BuildFromCode( IInputStream& input )
 {
     queue<Node*> q;
     vector<Node*> simbols;
-    unsigned char c;//Здесь будет храниться считанный байт.
+    unsigned char c;//Р—РґРµСЃСЊ Р±СѓРґРµС‚ С…СЂР°РЅРёС‚СЊСЃСЏ СЃС‡РёС‚Р°РЅРЅС‹Р№ Р±Р°Р№С‚.
     root = new Node( 0 );
     q.push( root );
     byte value;
@@ -231,7 +231,7 @@ void HuffmanTree::BuildFromCode( IInputStream& input )
     }
 }
 
-//Кодирует и выводит входные данные.
+//РљРѕРґРёСЂСѓРµС‚ Рё РІС‹РІРѕРґРёС‚ РІС…РѕРґРЅС‹Рµ РґР°РЅРЅС‹Рµ.
 void EncodeText( HuffmanTree& Tree, string& data, vector<Node*> simbols, IOutputStream& output )
 {
 	unsigned char c = 0;
@@ -239,22 +239,22 @@ void EncodeText( HuffmanTree& Tree, string& data, vector<Node*> simbols, IOutput
     short counter = 0;
 	int sumOfCodes = 0;
 
-	//Рассчитываем длину кода, который получится при кодировке данных.
+	//Р Р°СЃСЃС‡РёС‚С‹РІР°РµРј РґР»РёРЅСѓ РєРѕРґР°, РєРѕС‚РѕСЂС‹Р№ РїРѕР»СѓС‡РёС‚СЃСЏ РїСЂРё РєРѕРґРёСЂРѕРІРєРµ РґР°РЅРЅС‹С….
 	for( int i = 0; i < data.size(); ++i ){
 		sumOfCodes += simbols[static_cast<unsigned int>( static_cast<unsigned char>( data[i] ) )]->code.size();
     }
 
-    //Находим, сколько бит нехватает коду до целого числа байтов.
+    //РќР°С…РѕРґРёРј, СЃРєРѕР»СЊРєРѕ Р±РёС‚ РЅРµС…РІР°С‚Р°РµС‚ РєРѕРґСѓ РґРѕ С†РµР»РѕРіРѕ С‡РёСЃР»Р° Р±Р°Р№С‚РѕРІ.
 	short remain = 8 - ( sumOfCodes % 8 );
 
-        //Ставим в начало кода необходимое количество нулей и единицу.
+        //РЎС‚Р°РІРёРј РІ РЅР°С‡Р°Р»Рѕ РєРѕРґР° РЅРµРѕР±С…РѕРґРёРјРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РЅСѓР»РµР№ Рё РµРґРёРЅРёС†Сѓ.
         for( int i = 0; i < remain - 1; ++i ){
             ++counter;
         }
 
         c = ( c << 1 ) + 1;
 		++counter;
-		//Если в коде целое число байтов, то придётся вывести в начале байт 00000001.
+		//Р•СЃР»Рё РІ РєРѕРґРµ С†РµР»РѕРµ С‡РёСЃР»Рѕ Р±Р°Р№С‚РѕРІ, С‚Рѕ РїСЂРёРґС‘С‚СЃСЏ РІС‹РІРµСЃС‚Рё РІ РЅР°С‡Р°Р»Рµ Р±Р°Р№С‚ 00000001.
 		if( counter == 8 ){
 				output.Write( static_cast<byte>( c ) );
                 c = 0;
@@ -284,7 +284,7 @@ void EncodeText( HuffmanTree& Tree, string& data, vector<Node*> simbols, IOutput
     }
 }
 
-//Декодирует текст.
+//Р”РµРєРѕРґРёСЂСѓРµС‚ С‚РµРєСЃС‚.
 void DecodeText( HuffmanTree& Tree, IInputStream& input, IOutputStream& output )
 {
     unsigned char c;
@@ -293,10 +293,10 @@ void DecodeText( HuffmanTree& Tree, IInputStream& input, IOutputStream& output )
     bool b = false;
     byte value;
 
-	//Декодировка текста.
+	//Р”РµРєРѕРґРёСЂРѕРІРєР° С‚РµРєСЃС‚Р°.
 	while( input.Read( value ) ){
         c = static_cast<unsigned char>( value );
-        //Если считывание только началось, то в с сначала идёт дополнение данных до целого числа байтов.
+        //Р•СЃР»Рё СЃС‡РёС‚С‹РІР°РЅРёРµ С‚РѕР»СЊРєРѕ РЅР°С‡Р°Р»РѕСЃСЊ, С‚Рѕ РІ СЃ СЃРЅР°С‡Р°Р»Р° РёРґС‘С‚ РґРѕРїРѕР»РЅРµРЅРёРµ РґР°РЅРЅС‹С… РґРѕ С†РµР»РѕРіРѕ С‡РёСЃР»Р° Р±Р°Р№С‚РѕРІ.
         if( !b ){
 
             while( c >> 7 == 0 ){
@@ -306,7 +306,7 @@ void DecodeText( HuffmanTree& Tree, IInputStream& input, IOutputStream& output )
 
             c = c << 1;
 			++i;
-			//Если только что был полностью разобран считанный байт, то необходимо снова считать элемент.
+			//Р•СЃР»Рё С‚РѕР»СЊРєРѕ С‡С‚Рѕ Р±С‹Р» РїРѕР»РЅРѕСЃС‚СЊСЋ СЂР°Р·РѕР±СЂР°РЅ СЃС‡РёС‚Р°РЅРЅС‹Р№ Р±Р°Р№С‚, С‚Рѕ РЅРµРѕР±С…РѕРґРёРјРѕ СЃРЅРѕРІР° СЃС‡РёС‚Р°С‚СЊ СЌР»РµРјРµРЅС‚.
 			if( i == 8 ){
 				i = 0;
 				input.Read( value );
@@ -316,20 +316,20 @@ void DecodeText( HuffmanTree& Tree, IInputStream& input, IOutputStream& output )
         }
 
         while( true ){
-            //Если дошли до листа.
+            //Р•СЃР»Рё РґРѕС€Р»Рё РґРѕ Р»РёСЃС‚Р°.
             if( currentNode->Left == 0 ){
                 output.Write( static_cast<byte>( currentNode->Key ) );
                 currentNode = Tree.GiveRoot();
             }else{
-                //Если полностью разобран считанный байт.
+                //Р•СЃР»Рё РїРѕР»РЅРѕСЃС‚СЊСЋ СЂР°Р·РѕР±СЂР°РЅ СЃС‡РёС‚Р°РЅРЅС‹Р№ Р±Р°Р№С‚.
                 if( i == 8 ){
                     i = 0;
                     break;
                 }
                 if( c >> 7 == 0 ){
-                    currentNode = currentNode->Left;//Ищем ключ в левом поддереве.
+                    currentNode = currentNode->Left;//РС‰РµРј РєР»СЋС‡ РІ Р»РµРІРѕРј РїРѕРґРґРµСЂРµРІРµ.
                 }else{
-                    currentNode = currentNode->Right;//Ищем ключ в правом поддереве.
+                    currentNode = currentNode->Right;//РС‰РµРј РєР»СЋС‡ РІ РїСЂР°РІРѕРј РїРѕРґРґРµСЂРµРІРµ.
                 }
                 c = c << 1;
                 ++i;

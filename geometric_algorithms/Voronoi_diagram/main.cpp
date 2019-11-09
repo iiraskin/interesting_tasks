@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <vector>
 #include <array>
 #include <limits>
@@ -15,19 +15,19 @@ const double INF = std::numeric_limits<double>::infinity();
 struct CPoint {
     double x, y, z;
 
-    CPoint* previous;//Предыдущая точка.
-    CPoint* next;//Следующая точка.
+    CPoint* previous;//РџСЂРµРґС‹РґСѓС‰Р°СЏ С‚РѕС‡РєР°.
+    CPoint* next;//РЎР»РµРґСѓСЋС‰Р°СЏ С‚РѕС‡РєР°.
 
     CPoint(): x(INF), y(INF), z(INF), previous(nullptr), next(nullptr) {}
     CPoint(double _x, double _y, double _z, CPoint* _previous, CPoint* _next):
          x(_x), y(_y), z(_z), previous(_previous), next(_next) {}
 
     void Update() {
-        //Вставка точки в список.
+        //Р’СЃС‚Р°РІРєР° С‚РѕС‡РєРё РІ СЃРїРёСЃРѕРє.
         if (previous->next != this) {
                 previous->next = next->previous = this;
         }
-        //Удаление точки из списка.
+        //РЈРґР°Р»РµРЅРёРµ С‚РѕС‡РєРё РёР· СЃРїРёСЃРєР°.
         else {
             previous->next = next;
             next->previous = previous;
@@ -49,7 +49,7 @@ struct CPoint {
     return ((q->x - p->x) * (r->z - p->z) - (r->x - p->x) * (q->z - p->z)) / turn(p, q, r);
 }
 
- //Сортировка слиянием.
+ //РЎРѕСЂС‚РёСЂРѕРІРєР° СЃР»РёСЏРЅРёРµРј.
 void MergeSort(const vector<CPoint>& points, vector<int>& sort_points, const int begin, const int end) {
     int n = end - begin + 1;
     if (n == 1) {
@@ -97,21 +97,21 @@ void sort(vector<CPoint>& points)
     points[points.size() - 1].next = nullPoint;
 }
 
-//Слияние через мост
+//РЎР»РёСЏРЅРёРµ С‡РµСЂРµР· РјРѕСЃС‚
 void Merge(vector<CPoint*>& A, const vector<CPoint*>& B, const int n, CPoint *u, CPoint *v, const CPoint *mid)
 {
     array<double, 6> t;
     double oldt, newt;
     int i, j, k, l, minl;
     for (i = k = 0, j = n / 2 * 2, oldt = -INF; ; oldt = newt) {
-        //Ищем время свамого раннего события каждого типа.
+        //РС‰РµРј РІСЂРµРјСЏ СЃРІР°РјРѕРіРѕ СЂР°РЅРЅРµРіРѕ СЃРѕР±С‹С‚РёСЏ РєР°Р¶РґРѕРіРѕ С‚РёРїР°.
         t[0] = time(B[i]->previous, B[i], B[i]->next);
         t[1] = time(B[j]->previous, B[j], B[j]->next);
         t[2] = time(u, u->next, v);
         t[3] = time(u->previous, u, v);
         t[4] = time(u, v->previous, v);
         t[5] = time(u, v, v->next);
-        //Ищем самое раннее событие.
+        //РС‰РµРј СЃР°РјРѕРµ СЂР°РЅРЅРµРµ СЃРѕР±С‹С‚РёРµ.
         for (newt = INF, l = 0; l < 6; l++) {
             if (t[l] > oldt && t[l] < newt) {
                 minl = l;
@@ -164,7 +164,7 @@ void Hull(CPoint *list, vector<CPoint*>& A, const int n) {
     int i;
     for (u = list, i = 0; i < n / 2 - 1; u = u->next, i++);
     mid = v = u->next;
-    //Рекурсия
+    //Р РµРєСѓСЂСЃРёСЏ
     vector<CPoint*> B(n / 2 * 2);
     vector<CPoint*> C(n - n / 2);
     Hull(list, B, n / 2);
@@ -172,7 +172,7 @@ void Hull(CPoint *list, vector<CPoint*>& A, const int n) {
     for (int i = 0; i < n - n / 2; ++i) {
         B.insert(B.end(), C.begin(), C.end());
     }
-    //Находим мост.
+    //РќР°С…РѕРґРёРј РјРѕСЃС‚.
     for ( ; ; ) {
         if (turn(u, v, v->next) < 0) {v = v->next;}
         else if (turn(u->previous, u, v) < 0) {u = u->previous;}
@@ -198,10 +198,10 @@ double CrossProduct(const CVector& v1, const CVector& v2)
 void FindHighests(const vector<CPoint>& points, const vector<int>& hull_l, const vector<int>& hull_r, const int begin_l,
                   const int end_l, const int begin_r, const int end_r, int& highest_l, int& highest_r)
 {
-    //Используется, что никакие 3 точки не лежат на одной прямой, а, значит,
-    //CrossProduct != 0, если только в нём не нулевые вектора.
+    //РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ, С‡С‚Рѕ РЅРёРєР°РєРёРµ 3 С‚РѕС‡РєРё РЅРµ Р»РµР¶Р°С‚ РЅР° РѕРґРЅРѕР№ РїСЂСЏРјРѕР№, Р°, Р·РЅР°С‡РёС‚,
+    //CrossProduct != 0, РµСЃР»Рё С‚РѕР»СЊРєРѕ РІ РЅС‘Рј РЅРµ РЅСѓР»РµРІС‹Рµ РІРµРєС‚РѕСЂР°.
     while (true) {
-        int a = (highest_l + 1) % hull_l.size();//вспомогательная переменная
+        int a = (highest_l + 1) % hull_l.size();//РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅР°СЏ РїРµСЂРµРјРµРЅРЅР°СЏ
         if (CrossProduct(CVector(points[hull_l[highest_l]], points[hull_l[a]]),
                          CVector(points[hull_l[highest_l]], points[hull_r[highest_r]])) < 0) {
             highest_l = a;
@@ -220,10 +220,10 @@ void FindHighests(const vector<CPoint>& points, const vector<int>& hull_l, const
 void FindLowests(const vector<CPoint>& points, const vector<int>& hull_l, const vector<int>& hull_r, const int begin_l,
                  const int end_l, const int begin_r, const int end_r, int& lowest_l, int& lowest_r)
 {
-    //Используется, что никакие 3 точки не лежат на одной прямой, а, значит,
-    //CrossProduct != 0, если только в нём не нулевые вектора.
+    //РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ, С‡С‚Рѕ РЅРёРєР°РєРёРµ 3 С‚РѕС‡РєРё РЅРµ Р»РµР¶Р°С‚ РЅР° РѕРґРЅРѕР№ РїСЂСЏРјРѕР№, Р°, Р·РЅР°С‡РёС‚,
+    //CrossProduct != 0, РµСЃР»Рё С‚РѕР»СЊРєРѕ РІ РЅС‘Рј РЅРµ РЅСѓР»РµРІС‹Рµ РІРµРєС‚РѕСЂР°.
     while (true) {
-        int a = (lowest_l - 1 + hull_l.size()) % hull_l.size();//вспомогательная переменная
+        int a = (lowest_l - 1 + hull_l.size()) % hull_l.size();//РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅР°СЏ РїРµСЂРµРјРµРЅРЅР°СЏ
         if (CrossProduct(CVector(points[hull_l[lowest_l]], points[hull_l[a]]),
                          CVector(points[hull_l[lowest_l]], points[hull_r[lowest_r]])) > 0) {
             lowest_l = a;
@@ -260,10 +260,10 @@ void Merge2DHullsInitialization(const vector<int>& hull_l, const vector<int>& hu
 
 void Merge2DHulls(const vector<CPoint>& points, vector<int>& hull, const vector<int>& hull_l,
                   const vector<int>& hull_r, const int begin_l, const int end_r) {
-    //Везде далее l - left, r - right.
+    //Р’РµР·РґРµ РґР°Р»РµРµ l - left, r - right.
     int end_l = (begin_l + end_r) / 2;
     int begin_r = end_l + 1;
-    //Достраиваем оболочку.
+    //Р”РѕСЃС‚СЂР°РёРІР°РµРј РѕР±РѕР»РѕС‡РєСѓ.
     int highest_l, highest_r, lowest_l, lowest_r;
     Merge2DHullsInitialization(hull_l, hull_r, highest_l, highest_r, lowest_l, lowest_r, begin_l, end_r);
     FindHighests(points, hull_l, hull_r, begin_l, end_l, begin_r, end_r, highest_l, highest_r);
@@ -282,12 +282,12 @@ void Find2DHull(const vector<CPoint>& points, vector<int>& hull, const int begin
 {
     switch (end - begin) {
     case 0:
-        //Выпуклая оболочка состоит из одной точки.
+        //Р’С‹РїСѓРєР»Р°СЏ РѕР±РѕР»РѕС‡РєР° СЃРѕСЃС‚РѕРёС‚ РёР· РѕРґРЅРѕР№ С‚РѕС‡РєРё.
         hull.push_back(begin);
         return;
     case 1:
         {
-            //Выпуклая оболочка состоит из двух точек.
+            //Р’С‹РїСѓРєР»Р°СЏ РѕР±РѕР»РѕС‡РєР° СЃРѕСЃС‚РѕРёС‚ РёР· РґРІСѓС… С‚РѕС‡РµРє.
             hull.push_back(begin);
             hull.push_back(end);
             return;
@@ -321,7 +321,7 @@ int main() {
     CPoint* list = &points[0];
     vector<CPoint*> A(2 * n);
     Hull(list, A, n);
-    vector<int> a(n, 0);          //Вспомогательный вектор.
+    vector<int> a(n, 0);          //Р’СЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Р№ РІРµРєС‚РѕСЂ.
     for (int i = 0; A[i] != nullPoint;
         A[i++]->Update()) {
         a[A[i]->previous - &points[0]]++;
